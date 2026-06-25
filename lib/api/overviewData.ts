@@ -6,9 +6,9 @@ export type OverviewMetrics = {
 };
 
 export async function getOverviewMetricas(): Promise<OverviewMetrics> {
-  const useMocks = process.env.USE_REAL_API === "true";
+  const useRealApi = process.env.USE_REAL_API === "true";
 
-  if (useMocks) {
+  if (!useRealApi) {
     await new Promise((resolve) => setTimeout(resolve, 800));
 
     return {
@@ -50,9 +50,9 @@ export async function getOverviewMetricas(): Promise<OverviewMetrics> {
 }
 
 export async function getRevenueData() {
-  const useMocks = process.env.USE_REAL_API === "true";
+  const useRealApi = process.env.USE_REAL_API === "true";
 
-  if (useMocks) {
+  if (!useRealApi) {
     return [
       { nombre: "Lun", revenue: 4500 },
       { nombre: "Mar", revenue: 5200 },
@@ -79,9 +79,9 @@ export async function getRevenueData() {
 }
 
 export async function getOrderStatusData() {
-  const useMocks = process.env.USE_REAL_API === "true";
+  const useRealApi = process.env.USE_REAL_API === "true";
 
-  if (useMocks) {
+  if (!useRealApi) {
     return [
       { estado: "completada", cantidad: 350, fill: "var(--color-completada)" },
       { estado: "en_curso", cantidad: 120, fill: "var(--color-en_curso)" },
