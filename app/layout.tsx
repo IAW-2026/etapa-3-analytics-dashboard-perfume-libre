@@ -2,8 +2,9 @@ import Link from "next/link";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { Sidebar } from "@/components/Sidebar";
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata = {
   title: "Analytics Dashboard",
@@ -22,31 +23,8 @@ export default function RootLayout({
           <div className="h-16 flex items-center px-6 border-b border-gray-200">
             <h1 className="text-xl font-bold text-indigo-600">Analytics</h1>
           </div>
-          <nav className="flex-1 px-4 py-6 space-y-2">
-            <Link
-              href="/overview"
-              className="block px-4 py-2 rounded-md bg-indigo-50 text-indigo-700 font-medium"
-            >
-              Overview
-            </Link>
-            <Link
-              href="/transacciones"
-              className="block px-4 py-2 rounded-md text-gray-600 hover:bg-gray-100"
-            >
-              Transacciones
-            </Link>
-            <Link
-              href="/usuarios"
-              className="block px-4 py-2 rounded-md text-gray-600 hover:bg-gray-100"
-            >
-              Usuarios
-            </Link>
-            <Link
-              href="/productos"
-              className="block px-4 py-2 rounded-md text-gray-600 hover:bg-gray-100"
-            >
-              Productos
-            </Link>
+          <nav className="flex-w1 px-4 py-6 space-y-2">
+            <Sidebar />
           </nav>
         </aside>
 
