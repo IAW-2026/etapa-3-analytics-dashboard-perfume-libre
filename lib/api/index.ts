@@ -1,3 +1,7 @@
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
 const BUYER_URL = process.env.BUYER_API_URL || "http://localhost:3000";
 const FEEDBACK_URL = process.env.FEEDBACK_API_URL || "http://localhost:3001";
 const SELLER_URL = process.env.SELLER_API_URL || "http://localhost:3002";
@@ -32,16 +36,21 @@ export async function getFeedbackAnalytics(days: string) {
 }
 
 export async function getSellerAnalytics(days: string) {
+  let currentData = { totalSellers: 0, totalProducts: 0, activeProducts: 0, totalStock: 0 };
+  
   try {
     const res = await fetch(`${SELLER_URL}/api/seller/analytics?days=0`, {
       headers: { "api_key": process.env.SELLER_API_KEY || "IAW" },
       next: { revalidate: 60 }
     });
-    if (!res.ok) return null;
-    const currentData = await res.json();
+    if (res.ok) {
+      currentData = await res.json();
+    }
+  } catch (e) {
+    console.error("Fetch Seller error:", e);
+  }
 
-    // Consultar el historial local
-    const prisma = new (require('@prisma/client').PrismaClient)();
+  try {
     const daysNum = parseInt(days, 10);
     
     let dateFilter = {};
@@ -67,22 +76,27 @@ export async function getSellerAnalytics(days: string) {
       chartData
     };
   } catch (e) {
-    console.error(e);
-    return null;
+    console.error("DB Seller error:", e);
+    return { ...currentData, chartData: [] };
   }
 }
 
 export async function getShippingAnalytics(days: string) {
+  let currentData = { distribution: {}, averageDemoraDias: 0 };
+
   try {
     const res = await fetch(`${SHIPPING_URL}/api/analytics?days=0`, {
       headers: { "api_key": process.env.SELLER_API_KEY || "IAW" },
       next: { revalidate: 60 }
     });
-    if (!res.ok) return null;
-    const currentData = await res.json();
+    if (res.ok) {
+      currentData = await res.json();
+    }
+  } catch (e) {
+    console.error("Fetch Shipping error:", e);
+  }
 
-    // Consultar el historial local
-    const prisma = new (require('@prisma/client').PrismaClient)();
+  try {
     const daysNum = parseInt(days, 10);
     
     let dateFilter = {};
@@ -111,7 +125,7 @@ export async function getShippingAnalytics(days: string) {
       chartData
     };
   } catch (e) {
-    console.error(e);
-    return null;
+    console.error("DB Shipping error:", e);
+    return { ...currentData, chartData: [] };
   }
 }
