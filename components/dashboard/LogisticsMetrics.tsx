@@ -5,9 +5,19 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recha
 
 const COLORS = ['#10b981', '#f59e0b', '#3b82f6', '#ef4444', '#6366f1', '#8b5cf6'];
 
+const STATE_MAP: Record<string, string> = {
+  CREADO: "Creado",
+  PREPARANDO: "En preparación",
+  RETIRADO: "Retirado",
+  EN_TRANSITO: "En tránsito",
+  ENTREGADO: "Entregado",
+  NO_ENTREGADO: "No entregado",
+  CANCELADO: "Cancelado"
+};
+
 export function LogisticsMetrics({ distribution, avgDemora }: { distribution: Record<string, number>, avgDemora: number }) {
   const data = Object.keys(distribution || {}).map((key, index) => ({
-    name: key,
+    name: STATE_MAP[key] || key,
     value: distribution[key]
   }));
 
