@@ -33,12 +33,39 @@ export async function getFeedbackAnalytics(days: string) {
 
 export async function getSellerAnalytics(days: string) {
   try {
-    const res = await fetch(`${SELLER_URL}/api/seller/analytics?days=${days}`, {
+    const res = await fetch(`${SELLER_URL}/api/seller/analytics?days=0`, {
       headers: { "api_key": process.env.SELLER_API_KEY || "IAW" },
       next: { revalidate: 60 }
     });
     if (!res.ok) return null;
-    return res.json();
+    const currentData = await res.json();
+
+    // Consultar el historial local
+    const prisma = new (require('@prisma/client').PrismaClient)();
+    const daysNum = parseInt(days, 10);
+    
+    let dateFilter = {};
+    if (daysNum > 0) {
+      const pastDate = new Date();
+      pastDate.setDate(pastDate.getDate() - daysNum);
+      dateFilter = { fecha: { gte: pastDate } };
+    }
+
+    const history = await prisma.sellerSnapshot.findMany({
+      where: dateFilter,
+      orderBy: { fecha: 'asc' }
+    });
+
+    const chartData = history.map((snap: any) => ({
+      date: snap.fecha.toISOString().split('T')[0],
+      totalStock: snap.totalStock,
+      activeProducts: snap.activeProducts
+    }));
+
+    return {
+      ...currentData,
+      chartData
+    };
   } catch (e) {
     console.error(e);
     return null;
@@ -47,12 +74,42 @@ export async function getSellerAnalytics(days: string) {
 
 export async function getShippingAnalytics(days: string) {
   try {
-    const res = await fetch(`${SHIPPING_URL}/api/analytics?days=${days}`, {
+    const res = await fetch(`${SHIPPING_URL}/api/analytics?days=0`, {
       headers: { "api_key": process.env.SELLER_API_KEY || "IAW" },
       next: { revalidate: 60 }
     });
     if (!res.ok) return null;
-    return res.json();
+    const currentData = await res.json();
+
+    // Consultar el historial local
+    const prisma = new (require('@prisma/client').PrismaClient)();
+    const daysNum = parseInt(days, 10);
+    
+    let dateFilter = {};
+    if (daysNum > 0) {
+      const pastDate = new Date();
+      pastDate.setDate(pastDate.getDate() - daysNum);
+      dateFilter = { fecha: { gte: pastDate } };
+    }
+
+    const history = await prisma.shippingSnapshot.findMany({
+      where: dateFilter,
+      orderBy: { fecha: 'asc' }
+    });
+
+    const chartData = history.map((snap: any) => ({
+      date: snap.fecha.toISOString().split('T')[0],
+      pendientes: snap.pendientes,
+      enTransito: snap.enTransito,
+      entregados: snap.entregados,
+      cancelados: snap.cancelados,
+      avgDeliveryDays: snap.avgDeliveryDays
+    }));
+
+    return {
+      ...currentData,
+      chartData
+    };
   } catch (e) {
     console.error(e);
     return null;

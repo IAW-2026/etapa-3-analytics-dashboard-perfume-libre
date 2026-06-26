@@ -8,6 +8,8 @@ import { KpiCards } from "@/components/dashboard/KpiCards";
 import { SalesChart } from "@/components/dashboard/SalesChart";
 import { LogisticsMetrics } from "@/components/dashboard/LogisticsMetrics";
 import { FeedbackSummary } from "@/components/dashboard/FeedbackSummary";
+import { StockHistoryChart } from "@/components/dashboard/StockHistoryChart";
+import { ShippingHistoryChart } from "@/components/dashboard/ShippingHistoryChart";
 
 export const revalidate = 60; // Revalidate at most every 60 seconds
 
@@ -49,7 +51,7 @@ export default async function DashboardPage({
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
-        {/* Logística y Reputación */}
+        {/* Logística y Reputación Snapshot en vivo */}
         <LogisticsMetrics 
           distribution={shipping?.distribution || {}} 
           avgDemora={shipping?.averageDemoraDias || 0} 
@@ -59,6 +61,16 @@ export default async function DashboardPage({
           avgSeller={feedback?.averageSellerRating || 0}
           distribution={feedback?.distribution || {}}
         />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-8 gap-6 mt-6">
+        {/* Gráficas Históricas (Data Warehouse) */}
+        <div className="col-span-1 md:col-span-4">
+          <StockHistoryChart data={seller?.chartData || []} />
+        </div>
+        <div className="col-span-1 md:col-span-4">
+          <ShippingHistoryChart data={shipping?.chartData || []} />
+        </div>
       </div>
     </div>
   );
