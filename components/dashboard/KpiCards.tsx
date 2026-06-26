@@ -5,11 +5,13 @@ export function KpiCards({
   totalUsers, 
   totalRevenue, 
   totalOrders,
+  canceledOrders,
   totalProducts 
 }: { 
   totalUsers: number, 
   totalRevenue: number, 
   totalOrders: number,
+  canceledOrders: number,
   totalProducts: number
 }) {
   return (
@@ -40,13 +42,13 @@ export function KpiCards({
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Órdenes Completadas</CardTitle>
+          <CardTitle className="text-sm font-medium">Órdenes (Total)</CardTitle>
           <ShoppingBag className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">+{totalOrders}</div>
-          <p className="text-xs text-muted-foreground">
-            Aprobadas y enviadas
+          <p className="text-xs text-muted-foreground text-red-500 font-medium mt-1">
+            {canceledOrders} fueron canceladas
           </p>
         </CardContent>
       </Card>

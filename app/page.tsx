@@ -39,6 +39,7 @@ export default async function DashboardPage({
         totalUsers={buyer?.totalUsers || 0}
         totalRevenue={buyer?.totalRevenue || 0}
         totalOrders={buyer?.totalOrders || 0}
+        canceledOrders={buyer?.canceledOrders || 0}
         totalProducts={seller?.activeProducts || 0}
       />
 
