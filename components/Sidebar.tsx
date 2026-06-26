@@ -8,6 +8,8 @@ const navItems = [
   { href: "/transacciones", label: "transacciones" },
   { href: "/usuarios", label: "usuarios" },
   { href: "/productos", label: "productos" },
+  { href: "/calificaciones", label: "calificaciones" },
+  { href: "/envios", label: "envios" },
   { href: "/moderacion", label: "moderacion" },
 ];
 export function Sidebar() {
