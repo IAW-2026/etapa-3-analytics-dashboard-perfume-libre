@@ -10,6 +10,8 @@ import { LogisticsMetrics } from "@/components/dashboard/LogisticsMetrics";
 import { FeedbackSummary } from "@/components/dashboard/FeedbackSummary";
 import { StockHistoryChart } from "@/components/dashboard/StockHistoryChart";
 import { ShippingHistoryChart } from "@/components/dashboard/ShippingHistoryChart";
+import { BuyerHistoryChart } from "@/components/dashboard/BuyerHistoryChart";
+import { FeedbackHistoryChart } from "@/components/dashboard/FeedbackHistoryChart";
 import { TimeFilter } from "@/components/dashboard/TimeFilter";
 
 export const revalidate = 60; // Revalidate at most every 60 seconds
@@ -71,6 +73,12 @@ export default async function DashboardPage({
 
       <div className="grid grid-cols-1 md:grid-cols-8 gap-6">
         {/* Gráficas Históricas (Data Warehouse) */}
+        <div className="col-span-1 md:col-span-4">
+          <BuyerHistoryChart data={buyer?.chartData || []} />
+        </div>
+        <div className="col-span-1 md:col-span-4">
+          <FeedbackHistoryChart data={feedback?.chartData || []} />
+        </div>
         <div className="col-span-1 md:col-span-4">
           <StockHistoryChart data={seller?.chartData || []} />
         </div>

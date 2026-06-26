@@ -51,6 +51,41 @@ export async function GET(request: Request) {
       });
     }
 
+    // 3. Fetch live data from Buyer App
+    const BUYER_URL = process.env.BUYER_API_URL || "http://localhost:3000";
+    const buyerRes = await fetch(`${BUYER_URL}/api/analytics?days=90`, {
+      headers: { "api_key": process.env.SELLER_API_KEY || "IAW" }
+    });
+
+    if (buyerRes.ok) {
+      const buyerData = await buyerRes.json();
+      await prisma.buyerSnapshot.create({
+        data: {
+          totalUsers: buyerData.totalUsers || 0,
+          totalOrders: buyerData.totalOrders || 0,
+          totalRevenue: buyerData.totalRevenue || 0,
+          canceledOrders: buyerData.canceledOrders || 0
+        }
+      });
+    }
+
+    // 4. Fetch live data from Feedback App
+    const FEEDBACK_URL = process.env.FEEDBACK_API_URL || "http://localhost:3001";
+    const feedbackRes = await fetch(`${FEEDBACK_URL}/api/analytics?days=90`, {
+      headers: { "api_key": process.env.FEEDBACK_API_KEY || "IAW" }
+    });
+
+    if (feedbackRes.ok) {
+      const feedbackData = await feedbackRes.json();
+      await prisma.feedbackSnapshot.create({
+        data: {
+          totalReviews: feedbackData.totalReviews || 0,
+          averageProductRating: parseFloat(feedbackData.averageProductRating) || 0,
+          averageSellerRating: parseFloat(feedbackData.averageSellerRating) || 0
+        }
+      });
+    }
+
     return NextResponse.json({ success: true, message: "Snapshots created" });
   } catch (error) {
     console.error("Cron error:", error);

@@ -30,3 +30,24 @@ model ShippingSnapshot {
 
   @@index([fecha])
 }
+
+model BuyerSnapshot {
+  id             String   @id @default(cuid())
+  fecha          DateTime @default(now())
+  totalUsers     Int
+  totalOrders    Int
+  totalRevenue   Float
+  canceledOrders Int
+
+  @@index([fecha])
+}
+
+model FeedbackSnapshot {
+  id                   String   @id @default(cuid())
+  fecha                DateTime @default(now())
+  totalReviews         Int
+  averageProductRating Float
+  averageSellerRating  Float
+
+  @@index([fecha])
+}

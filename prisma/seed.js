@@ -9,6 +9,8 @@ async function main() {
     console.log("Ya existen datos en la base de datos. Purgando datos anteriores...");
     await prisma.sellerSnapshot.deleteMany({});
     await prisma.shippingSnapshot.deleteMany({});
+    await prisma.buyerSnapshot.deleteMany({});
+    await prisma.feedbackSnapshot.deleteMany({});
   }
 
   const today = new Date();
@@ -16,6 +18,8 @@ async function main() {
 
   const sellerSnapshots = [];
   const shippingSnapshots = [];
+  const buyerSnapshots = [];
+  const feedbackSnapshots = [];
 
   // Generar datos para los últimos 90 días
   for (let i = 90; i >= 0; i--) {
@@ -25,6 +29,7 @@ async function main() {
     // Simular tendencia con fluctuaciones aleatorias
     const progress = (90 - i) / 90; // 0 to 1
     const stockFluctuation = Math.sin(i / 5) * 100; // Onda senoidal
+    const ratingFluctuation = Math.cos(i / 7) * 0.4;
     
     sellerSnapshots.push({
       fecha: date,
@@ -44,10 +49,28 @@ async function main() {
       cancelados: 5 + Math.floor(progress * 30) + Math.floor(Math.random() * 5),
       avgDeliveryDays: 2 + Math.random() * 1.5 
     });
+
+    buyerSnapshots.push({
+      fecha: date,
+      // Acumulativos
+      totalUsers: 200 + Math.floor(progress * 800) + Math.floor(Math.random() * 10),
+      totalOrders: 150 + Math.floor(progress * 900) + Math.floor(Math.random() * 15),
+      totalRevenue: 5000 + Math.floor(progress * 45000) + (Math.random() * 500),
+      canceledOrders: 10 + Math.floor(progress * 60) + Math.floor(Math.random() * 3)
+    });
+
+    feedbackSnapshots.push({
+      fecha: date,
+      totalReviews: 50 + Math.floor(progress * 300) + Math.floor(Math.random() * 10),
+      averageProductRating: Math.max(1, Math.min(5, 3.8 + ratingFluctuation + Math.random() * 0.2)),
+      averageSellerRating: Math.max(1, Math.min(5, 4.0 + ratingFluctuation + Math.random() * 0.2))
+    });
   }
 
   await prisma.sellerSnapshot.createMany({ data: sellerSnapshots });
   await prisma.shippingSnapshot.createMany({ data: shippingSnapshots });
+  await prisma.buyerSnapshot.createMany({ data: buyerSnapshots });
+  await prisma.feedbackSnapshot.createMany({ data: feedbackSnapshots });
 
   console.log('Seeding finished successfully.');
 }
