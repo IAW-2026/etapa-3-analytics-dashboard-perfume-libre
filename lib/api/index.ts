@@ -111,14 +111,22 @@ export async function getShippingAnalytics(days: string) {
       orderBy: { fecha: 'asc' }
     });
 
-    const chartData = history.map((snap: any) => ({
-      date: snap.fecha.toISOString().split('T')[0],
-      pendientes: snap.pendientes,
-      enTransito: snap.enTransito,
-      entregados: snap.entregados,
-      cancelados: snap.cancelados,
-      avgDeliveryDays: snap.avgDeliveryDays
-    }));
+    const chartData = history.map((snap: any, index: number) => {
+      const prevSnap = index > 0 ? history[index - 1] : snap;
+      return {
+        date: snap.fecha.toISOString().split('T')[0],
+        pendientes: snap.pendientes,
+        enTransito: snap.enTransito,
+        entregados: index === 0 ? 0 : Math.max(0, snap.entregados - prevSnap.entregados),
+        cancelados: index === 0 ? 0 : Math.max(0, snap.cancelados - prevSnap.cancelados),
+        avgDeliveryDays: snap.avgDeliveryDays
+      };
+    });
+
+    // Remove the first item since it has no previous day delta (it acts as baseline)
+    if (chartData.length > 0) {
+      chartData.shift();
+    }
 
     return {
       ...currentData,
