@@ -15,10 +15,21 @@ const STATE_MAP: Record<string, string> = {
   CANCELADO: "Cancelado"
 };
 
+const COLOR_MAP: Record<string, string> = {
+  CREADO: '#94a3b8',      // Gris
+  PREPARANDO: '#f59e0b',  // Naranja
+  RETIRADO: '#3b82f6',    // Azul
+  EN_TRANSITO: '#8b5cf6', // Violeta
+  ENTREGADO: '#10b981',   // Verde
+  NO_ENTREGADO: '#ef4444', // Rojo
+  CANCELADO: '#475569'    // Gris Oscuro
+};
+
 export function LogisticsMetrics({ distribution, avgDemora }: { distribution: Record<string, number>, avgDemora: number }) {
   const data = Object.keys(distribution || {}).map((key, index) => ({
     name: STATE_MAP[key] || key,
-    value: distribution[key]
+    value: distribution[key],
+    color: COLOR_MAP[key] || COLORS[index % COLORS.length]
   }));
 
   return (
@@ -42,7 +53,7 @@ export function LogisticsMetrics({ distribution, avgDemora }: { distribution: Re
                   dataKey="value"
                 >
                   {data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
                 <Tooltip 
