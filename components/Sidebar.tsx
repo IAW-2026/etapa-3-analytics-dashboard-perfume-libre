@@ -10,7 +10,6 @@ const navItems = [
   { href: "/productos", label: "productos" },
   { href: "/calificaciones", label: "calificaciones" },
   { href: "/envios", label: "envios" },
-  { href: "/moderacion", label: "moderacion" },
 ];
 export function Sidebar() {
   const pathname = usePathname();

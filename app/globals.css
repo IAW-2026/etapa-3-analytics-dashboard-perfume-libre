@@ -97,6 +97,9 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --color-chart-delivered: var(--chart-delivered);
+  --color-chart-transit: var(--chart-transit);
+  --color-chart-preparing: var(--chart-preparing);
 }
 
 :root {
@@ -132,6 +135,9 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --chart-delivered: oklch(0.65 0.18 145);
+  --chart-transit: oklch(0.6 0.17 250);
+  --chart-preparing: oklch(0.75 0.03 240);
 }
 
 .dark {
@@ -166,4 +172,7 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --chart-delivered: oklch(0.55 0.16 145);
+  --chart-transit: oklch(0.52 0.15 250);
+  --chart-preparing: oklch(0.4 0.03 240);
 }
