@@ -3,16 +3,15 @@ export async function getUsuariosKPIs() {
 
   if (!useRealApi) {
     return {
-      totalUsuarios: 1250, // Vendría de Clerk
-      nuevosEsteMes: 85, // Vendría de Clerk
-      compradoresRecurrentes: 340, // Vendría de Buyer App (usuarios con > 1 orden)
+      totalUsuarios: 1250,
+      nuevosEsteMes: 85,
+      compradoresRecurrentes: 340,
     };
   }
 
   try {
-    // Acá en el futuro podrías hacer un Promise.all a tu backend que hable con Clerk y con Buyer App
     const res = await fetch(
-      "https://tu-buyer-app.vercel.app/api/admin/metricas/usuarios/kpis",
+      "https://buyer-app.vercel.app/api/admin/metricas/usuarios/kpis",
     );
     if (!res.ok) throw new Error("API error");
     return await res.json();
@@ -38,7 +37,7 @@ export async function getCrecimientoUsuariosData() {
 
   try {
     const res = await fetch(
-      "https://tu-buyer-app.vercel.app/api/admin/metricas/usuarios/crecimiento",
+      "https://buyer-app.vercel.app/api/admin/metricas/usuarios/crecimiento",
     );
     if (!res.ok) throw new Error("API error");
     return await res.json();
@@ -63,7 +62,7 @@ export async function getCompradoresVsVendedoresData() {
 
   try {
     const res = await fetch(
-      "https://tu-buyer-app.vercel.app/api/admin/metricas/usuarios/roles",
+      "https://buyer-app.vercel.app/api/admin/metricas/usuarios/roles",
     );
     if (!res.ok) throw new Error("API error");
     return await res.json();
@@ -117,7 +116,7 @@ export async function getTopCompradores() {
 
   try {
     const res = await fetch(
-      "https://tu-buyer-app.vercel.app/api/admin/metricas/usuarios/top-compradores?limit=10",
+      "https://buyer-app.vercel.app/api/admin/metricas/usuarios/top-compradores?limit=10",
     );
     if (!res.ok) throw new Error("API error");
     return await res.json();

@@ -5,7 +5,7 @@ export async function getEnviosKPIs() {
     return {
       enTransito: 142,
       entregadosHoy: 38,
-      tiempoPromedio: 2.4, // en dias
+      tiempoPromedio: 2.4,
     };
   }
 
