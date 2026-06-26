@@ -3,7 +3,6 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { ClerkProvider, UserButton } from "@clerk/nextjs";
-import { TimeFilter } from "@/components/dashboard/TimeFilter";
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
@@ -27,7 +26,6 @@ export default function RootLayout({
                 Perfume Libre Analytics
               </h2>
               <div className="flex items-center space-x-4">
-                <TimeFilter />
                 <UserButton />
               </div>
             </header>

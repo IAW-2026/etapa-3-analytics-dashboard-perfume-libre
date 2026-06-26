@@ -10,6 +10,7 @@ import { LogisticsMetrics } from "@/components/dashboard/LogisticsMetrics";
 import { FeedbackSummary } from "@/components/dashboard/FeedbackSummary";
 import { StockHistoryChart } from "@/components/dashboard/StockHistoryChart";
 import { ShippingHistoryChart } from "@/components/dashboard/ShippingHistoryChart";
+import { TimeFilter } from "@/components/dashboard/TimeFilter";
 
 export const revalidate = 60; // Revalidate at most every 60 seconds
 
@@ -63,7 +64,12 @@ export default async function DashboardPage({
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-8 gap-6 mt-6">
+      <div className="mt-10 mb-4 flex items-center justify-between">
+        <h2 className="text-xl font-bold text-gray-800">Gráficas Históricas (Data Warehouse)</h2>
+        <TimeFilter />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-8 gap-6">
         {/* Gráficas Históricas (Data Warehouse) */}
         <div className="col-span-1 md:col-span-4">
           <StockHistoryChart data={seller?.chartData || []} />
