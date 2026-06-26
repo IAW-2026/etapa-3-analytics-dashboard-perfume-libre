@@ -4,10 +4,6 @@ Este documento define los endpoints que el **Analytics dashboard** necesita cons
 
 ---
 
-## 0. Cualquiera
-
-## 0.1
-
 ## 1. Buyer App
 
 ### 1.1 Obtener Metricas generales
