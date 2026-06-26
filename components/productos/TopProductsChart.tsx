@@ -1,0 +1,47 @@
+"use client";
+
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+
+const chartConfig = {
+  vendidas: { label: "Unidades Vendidas", color: "var(--primary)" },
+};
+
+export function TopProductsChart({ data }: { data: any[] }) {
+  return (
+    <Card className="col-span-2">
+      <CardHeader>
+        <CardTitle>Top Productos (Unidades Vendidas)</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <ChartContainer config={chartConfig} className="h-75 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={data} layout="vertical" margin={{ left: 50 }}>
+              <XAxis type="number" hide />
+              <YAxis
+                dataKey="titulo"
+                type="category"
+                stroke="#888888"
+                fontSize={12}
+                tickLine={false}
+                axisLine={false}
+              />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <Bar
+                dataKey="vendidas"
+                fill="var(--primary)"
+                radius={[0, 4, 4, 0]}
+                barSize={24}
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </ChartContainer>
+      </CardContent>
+    </Card>
+  );
+}
