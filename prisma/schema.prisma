@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_POSTGRES_PRISMA_URL")
+  directUrl = env("DATABASE_POSTGRES_URL_NON_POOLING")
+}
+
+model SellerSnapshot {
+  id             String   @id @default(cuid())
+  fecha          DateTime @default(now())
+  totalSellers   Int
+  totalProducts  Int
+  activeProducts Int
+  totalStock     Int
+
+  @@index([fecha])
+}
+
+model ShippingSnapshot {
+  id                String   @id @default(cuid())
+  fecha             DateTime @default(now())
+  pendientes        Int
+  enTransito        Int
+  entregados        Int
+  cancelados        Int
+  avgDeliveryDays   Float
+
+  @@index([fecha])
+}
+
+model BuyerSnapshot {
+  id             String   @id @default(cuid())
+  fecha          DateTime @default(now())
+  totalUsers     Int
+  totalOrders    Int
+  totalRevenue   Float
+  canceledOrders Int
+
+  @@index([fecha])
+}
+
+model FeedbackSnapshot {
+  id                   String   @id @default(cuid())
+  fecha                DateTime @default(now())
+  totalReviews         Int
+  averageProductRating Float
+  averageSellerRating  Float
+
+  @@index([fecha])
+}
