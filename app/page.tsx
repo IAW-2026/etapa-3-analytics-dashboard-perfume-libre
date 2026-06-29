@@ -5,7 +5,6 @@ import {
   getShippingAnalytics 
 } from "@/lib/api";
 import { KpiCards } from "@/components/dashboard/KpiCards";
-import { SalesChart } from "@/components/dashboard/SalesChart";
 import { LogisticsMetrics } from "@/components/dashboard/LogisticsMetrics";
 import { FeedbackSummary } from "@/components/dashboard/FeedbackSummary";
 import { StockHistoryChart } from "@/components/dashboard/StockHistoryChart";
@@ -48,10 +47,6 @@ export default async function DashboardPage({
         totalProducts={seller?.activeProducts || 0}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
-        {/* Main Chart: Ventas (Ocupa todo el ancho o 3 columnas) */}
-        <SalesChart data={buyer?.chartData || []} />
-      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
         {/* Logística y Reputación Snapshot en vivo */}
@@ -73,7 +68,7 @@ export default async function DashboardPage({
 
       <div className="grid grid-cols-1 md:grid-cols-8 gap-6">
         {/* Gráficas Históricas (Data Warehouse) */}
-        <div className="col-span-1 md:col-span-4">
+        <div className="col-span-1 md:col-span-8">
           <BuyerHistoryChart data={buyer?.chartData || []} />
         </div>
         <div className="col-span-1 md:col-span-4">
